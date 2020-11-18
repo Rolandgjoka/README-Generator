@@ -1,16 +1,12 @@
 const inquirer = require("inquirer");
-// const fs = require("fs");
-// const generateMarkdown = require("./utils/generateMarkdown");
+const fs = require("fs/promises");
+
+const generateMarkdown = require("./utils/generateMarkdown");
 
 // array of questions for user
-//const questions = [
+
     inquirer
     .prompt([
-    {
-        type: "input",
-        message: "What is your Application Repository?",
-        name: "GitHub",
-    },
     {
         type: "input",
         message: "What is the title of your Project?",
@@ -32,7 +28,7 @@ const inquirer = require("inquirer");
         name: "Usage",
     },
     {
-        type: "list",
+        type: "checkbox",
         name: "License",
         message: "What license you would like to use for your project?",
         choices: [{
@@ -68,44 +64,19 @@ const inquirer = require("inquirer");
     {
         type: "input",
         message: "Please enter your email: ",
-        name: "email",
+        name: "Email",
     }
 
 ])
 
 .then ((response)=>{
     console.log(response)
+    const readMe = generateMarkdown(response);
+    fs.writeFile("README.md",readMe,(error) =>{
+        console.log(error);
+
+    })
 }
 
 )
 
-
-// // function to write README file
-// function writeToFile(fileName, data) {
-//     fs.writeFile(fileName, data, function(err){
-//         if (err){
-//             console.error(err);
-//         }
-//     });
-// }
-
-// // function to initialize program
-// async function init() {
-//     try {
-//         const questions = await prompt();
-//         const user = await api.getUser(questions.GitHubUsername);
-//         const readMe = generateMarkdown(questions, user);
-//         writeToFile("GeneratedREADME.md", readMe);
-//         console.log("**README file successfully created!**");
-        
-//     }catch(err) {
-//         console.log(err);
-        
-//     }
-    
-
-// }
-
-
-// // function call to initialize program
-//  init();
