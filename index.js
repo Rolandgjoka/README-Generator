@@ -1,35 +1,35 @@
 const inquirer = require("inquirer");
-const fs = require("fs");
-const generateMarkdown = require("./utils/generateMarkdown");
-const api = require("./utils/api");
-
+// const fs = require("fs");
+// const generateMarkdown = require("./utils/generateMarkdown");
 
 // array of questions for user
-const questions = [
+//const questions = [
+    inquirer
+    .prompt([
     {
         type: "input",
+        message: "What is your Application Repository?",
         name: "GitHub",
-        message: "What is your Application Repository?"
     },
     {
         type: "input",
+        message: "What is the title of your Project?",
         name: "TitleOfProject",
-        message: "What is the title of your Project?"
     },
     {
         type: "input",
+        message: "Please write a short description of your project.",
         name: "Description",
-        message: "Please write a short description of your project."
     },
     {
         type: "input",
+        message: "Please write the instructions to successfully install your project?",
         name: "Install",
-        message: "Please write the instructions to successfully install your project?"
     },
     {
         type: "input",
+        message: "How can your project be used?",
         name: "Usage",
-        message: "How can your project be used?"
     },
     {
         type: "list",
@@ -50,56 +50,62 @@ const questions = [
     },
     {
         type: "input",
-        name: "Contributors",
         message: "Are there other contributors on your project?",
-        validate: validateContributors
+        name: "Contributors",
+        
     },
     {
         type: "input",
+        message: "Is there a test included?",
         name: "Tests",
-        message: "Is there a test included?"
     },
     {
         type: "input",
+        message: "How to reach out if i have additional questions? ",
         name: "Questions",
-        message: "How to reach out if i have additional questions? "
     },
     
     {
         type: "input",
+        message: "Please enter your email: ",
         name: "email",
-        message: "Please enter your email: "
     }
 
-];
+])
 
-
-// function to write README file
-function writeToFile(fileName, data) {
-    fs.writeFile(fileName, data, function(err){
-        if (err){
-            console.error(err);
-        }
-    });
+.then ((response)=>{
+    console.log(response)
 }
 
-// function to initialize program
-function init() {
-    try {
-        const answers = await promptUser();
-        const user = await api.getUser(answers.GitHubUsername);
-        const readMe = generateMarkdown(answers, user);
-        writeToFile("GeneratedREADME.md", readMe);
-        console.log("**README file successfully created!**");
+)
+
+
+// // function to write README file
+// function writeToFile(fileName, data) {
+//     fs.writeFile(fileName, data, function(err){
+//         if (err){
+//             console.error(err);
+//         }
+//     });
+// }
+
+// // function to initialize program
+// async function init() {
+//     try {
+//         const questions = await prompt();
+//         const user = await api.getUser(questions.GitHubUsername);
+//         const readMe = generateMarkdown(questions, user);
+//         writeToFile("GeneratedREADME.md", readMe);
+//         console.log("**README file successfully created!**");
         
-    }catch(err) {
-        console.log(err);
+//     }catch(err) {
+//         console.log(err);
         
-    }
+//     }
     
 
-}
+// }
 
 
-// function call to initialize program
-init();
+// // function call to initialize program
+//  init();
